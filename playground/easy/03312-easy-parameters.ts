@@ -20,7 +20,7 @@
 
 /* _____________ 你的代码 _____________ */
 
-type MyParameters<T extends (...args: any[]) => any> = any
+type MyParameters<T extends (...args: any[]) => unknown> = T extends (...args: infer A) => unknown ? A : never;
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
