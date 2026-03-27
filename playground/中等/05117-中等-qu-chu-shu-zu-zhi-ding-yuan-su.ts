@@ -20,7 +20,20 @@
 
 /* _____________ 你的代码 _____________ */
 
-type Without<T, U> = any
+
+import { Computed } from '../tools';
+
+type ToUnion<T> = T extends any[] ? T[number] : T
+type B = ToUnion<['1','b']> // type B = "1" | "b"
+
+// 答案
+type Without<T, U> = 
+  T extends [infer R, ...infer F]
+    ? R extends ToUnion<U>
+      ? Without<F, U>
+      : [R, ...Without<F, U>]
+    : T
+ type a = Computed<Without<[1, 2, 4, 1, 5], [1, 2]>>
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
