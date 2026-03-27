@@ -33,7 +33,26 @@
 
 /* _____________ 你的代码 _____________ */
 
-type MyReadonly<T> = any
+type MyReadonly<T> = {
+  readonly [K in keyof T]:T[K];
+}
+
+type Compute<T> = {
+  [K in keyof T]:T[K];
+}
+
+type a = Compute<MyReadonly<Todo1>>// readonly只有第一次加了，没有递归增加
+let test:MyReadonly<Todo1> = {
+  title: '123',
+  description: '123',
+  completed: false,
+  meta: {
+    author: '123',
+  },
+}
+test.meta.author = '123'// ts原版的Readonly也不会报错
+// @ts-expect-error
+test.title = '123'
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
