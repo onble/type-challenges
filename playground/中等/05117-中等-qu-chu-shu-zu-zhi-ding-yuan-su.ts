@@ -23,7 +23,7 @@
 
 import { Computed } from '../tools';
 
-type ToUnion<T> = T extends any[] ? T[number] : T
+type ToUnion<T> = T extends unknown[] ? T[number] : T
 type B = ToUnion<['1','b']> // type B = "1" | "b"
 
 // 答案

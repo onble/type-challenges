@@ -20,7 +20,27 @@
 
 /* _____________ 你的代码 _____________ */
 
-type TupleToUnion<T> = any
+
+// type TupleToUnion<T> = T extends Array<infer E> ? E : never;// ❌
+// type TupleToUnion<T> = T extends (infer U)[] ? U : never;// ❌
+// type TupleToUnion<T> = T extends readonly any[]? T[number] : T;// ✅
+type TupleToUnion<T extends readonly unknown[]> = T[number]// ✅
+
+
+// type TupleToUnion<T extends readonly any[]> = T extends Array<infer R> ? R : never;
+
+let v1 = [1, 2, '3'] as const
+type v1Type =readonly [1, 2, '3'] 
+
+// type v2 =  [1, 2, '3'] extends Array<unknown>?true:false
+
+// never ❌
+type t1 = TupleToUnion<v1Type>
+
+type TupleToUnion2<T extends readonly any[]> = T[number];
+
+// 1 | 2 | "3"
+type t2 = TupleToUnion2<typeof v1>
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
